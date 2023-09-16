@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  jwt-app:
+    container_name: jwt-app
+    depends_on:
+      -   postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/jwt
+    ports:
+      - "8088:8088"
+    build:
+      context: .
+    restart: unless-stopped
+
+  postgres:
+    container_name: postgres
+    image: 'postgres:13.1-alpine'
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: jwt
+    restart: unless-stopped
